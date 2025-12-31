@@ -189,7 +189,7 @@ jobs:
           mkdir kernel_workspace && cd kernel_workspace
 
           echo "🌐 正在初始化内核仓库..."
-          repo init -u https://github.com/OnePlusOOS/kernel_manifest.git -b refs/heads/oneplus/sm8750 -m JiuGeFaCai_oneplus_ace5_pro_v.xml --depth=1
+          repo init -u https://github.com/lengxi233/kernel_manifest.git -b refs/heads/oneplus/sm8750 -m JiuGeFaCai_oneplus_ace5_pro_v.xml --depth=1
 
           echo "🔄 同步代码库(使用$(nproc --all)线程)..."
           repo sync -c -j$(nproc --all) --no-tags --no-clone-bundle --force-sync
