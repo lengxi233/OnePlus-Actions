@@ -280,7 +280,7 @@ jobs:
           cp ../kernel_patches/zram/001-lz4.patch ./common/
           cp ../kernel_patches/zram/lz4armv8.S ./common/lib
           cp ../kernel_patches/zram/002-zstd.patch ./common/
-          cp ../kernel_patches/common/unicode_bypass_fix_5.10-6.6.patch ./common/
+          cp ../kernel_patches/common/unicode_bypass_fix_6.1+.patch ./common/
           
           if [ "${{ github.event.inputs.lz4kd }}" == "On" ]; then
             # Copy lz4k from ShirkNeko
@@ -293,7 +293,7 @@ jobs:
           cd ./common
 
           echo "📦 应用修复Unicode绕过补丁..."
-          #patch -p1 < unicode_bypass_fix_5.10-6.6.patch
+          patch -p1 < unicode_bypass_fix_6.1+.patch
 
           if [ "${{ github.event.inputs.lz4kd }}" = "Off" ] && [ "${{ github.event.inputs.KERNEL_VERSION }}" = "6.1" ]; then
             echo "📦 应用lz4+zstd补丁..."
