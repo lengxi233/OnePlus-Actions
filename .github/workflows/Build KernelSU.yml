@@ -243,7 +243,7 @@ jobs:
 
           if: ${{ github.event.inputs.KSU == '5ec1cff/KSU' && github.event.inputs.SUSFS == 'Off' }}
           cd kernel_workspace
-          curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -s main
+          curl -LSs "https://raw.githubusercontent.com/5ec1cff/KernelSU/main/kernel/setup.sh" | bash -s main
           
           echo "✅ KernelSU 配置完成"
         
