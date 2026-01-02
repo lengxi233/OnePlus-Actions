@@ -344,7 +344,7 @@ jobs:
 
           cp ./SCHED_PATCH/fengchi_${{ github.event.inputs.FEIL }}.patch ./
 
-         if [[ -f "fengchi_oneplus_ace5_pro.patch" ]]; then
+          if [[ -f "fengchi_oneplus_ace5_pro.patch" ]]; then
             echo "⚙️ 开始应用风驰补丁"
             dos2unix "fengchi_oneplus_ace5_pro.patch"
             patch -p1 -F 3 < "fengchi_oneplus_ace5_pro.patch"
