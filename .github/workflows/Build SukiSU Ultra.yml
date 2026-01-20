@@ -9,55 +9,15 @@ on:
         type: choice
         options:
           - 'sm8750'
-          - 'mt6991'
-          - 'sm8650'
-          - 'mt6989'
-          - 'sm8635'
-          - 'sm8550'
-          - 'sm8450'
-          - 'sm8475'
-          - 'sm7675'
-          - 'sm7550'
-          - 'sm6375'
-        default: 'sm8650'
+        default: 'sm8750'
         
       FEIL:
         description: "手机型号"
         required: true
         type: choice
         options:
-          - 'oneplus_13_b'
-          - 'oneplus_13s_b'
-          - 'oneplus_13t_b'
           - 'oneplus_ace5_pro_b'
-          - 'oneplus_ace_6'
-          - 'oneplus_pad_2_pro_b'
-          - 'oneplus_pad_3_b'
-          - 'oneplus_ace5_ultra_b'
-          - 'oneplus_12_b'
-          - 'oneplus_ace3_pro_b'
-          - 'oneplus_ace5_b'
-          - 'oneplus_13r_b'
-          - 'oneplus_pad2_b'
-          - 'oneplus_pad_pro_b'
-          - 'oneplus_ace5_race_b'
-          - 'oneplus_ace5_race_v'
-          - 'oneplus_nord_5_b'
-          - 'oneplus_11_b'
-          - 'oneplus_12r_b'
-          - 'oneplus_ace2_pro_b'
-          - 'oneplus_ace3_b'
-          - 'oneplus_open_b'
-          - 'oneplus_10t'
-          - 'oneplus_11r_b'
-          - 'oneplus_ace2_b'
-          - 'oneplus_ace_pro'
-          - 'oneplus_10_pro_v'
-          - 'oneplus_ace_3v_b'
-          - 'oneplus_nord_4_b'
-          - 'oneplus_nord_ce4_lite_5g'
-          - 'oneplus_nord_ce4_b'
-        default: 'oneplus_12_b'
+        default: 'oneplus_ace5_pro_b'
         
       ANDROID_VERSION:
         description: "安卓KMI版本"
@@ -65,10 +25,7 @@ on:
         type: choice
         options:
           - 'android15'
-          - 'android14'
-          - 'android13'
-          - 'android12'
-        default: 'android14'
+        default: 'android15'
         
       KERNEL_VERSION:
         description: "内核版本"
@@ -76,10 +33,7 @@ on:
         type: choice
         options:
           - '6.6'
-          - '6.1'
-          - '5.15'
-          - '5.10'
-        default: '6.1'
+        default: '6.6'
 
       SUSFS:
         description: "是否启用SUSFS"
@@ -146,7 +100,7 @@ on:
          
 jobs:
   build:
-    name: For ${{ github.event.inputs.FEIL }} KPM ${{ github.event.inputs.KPM }} lz4kd ${{ github.event.inputs.lz4kd }} SUSFS ${{ github.event.inputs.SUSFS }}
+    name: For oneplus_ace5_pro_b KPM ${{ github.event.inputs.KPM }} lz4kd ${{ github.event.inputs.lz4kd }} SUSFS ${{ github.event.inputs.SUSFS }}
     runs-on: ubuntu-latest
     env:
       CCACHE_COMPILERCHECK: "%compiler% -dumpmachine; %compiler% -dumpversion"
@@ -244,7 +198,7 @@ jobs:
           mkdir kernel_workspace && cd kernel_workspace
 
           echo "🌐 正在初始化内核仓库..."
-          repo init -u https://github.com/Xiaomichael/kernel_manifest.git -b refs/heads/oneplus/${{ github.event.inputs.CPU }} -m ${{ github.event.inputs.FEIL }}.xml --depth=1
+          repo init -u https://github.com/lengxi233/kernel_manifest.git -b refs/heads/oneplus/sm8750 -m oneplus_ace5_pro_b.xml --depth=1
 
           echo "🔄 同步代码库(使用$(nproc --all)线程)..."
           repo sync -c -j$(nproc --all) --no-tags --no-clone-bundle --force-sync
@@ -279,7 +233,7 @@ jobs:
       # ====================== 内核定制阶段 ======================
 
       - name: "⚡ Setup Baseband-guard | 配置 Baseband-guard"
-        if: ${{ github.event.inputs.bbg == 'On' && github.event.inputs.KPM == 'Off' }}
+        if: ${{ github.event.inputs.bbg == 'On' }}
         run: |
           set -e
           cd kernel_workspace/kernel_platform/common
@@ -404,10 +358,10 @@ jobs:
 
           cp ./SCHED_PATCH/fengchi_${{ github.event.inputs.FEIL }}.patch ./
 
-          if [[ -f "fengchi_${{ github.event.inputs.FEIL }}.patch" ]]; then
+          if [[ -f "fengchi_oneplus_ace5_pro_b.patch" ]]; then
             echo "⚙️ 开始应用风驰补丁"
-            dos2unix "fengchi_${{ github.event.inputs.FEIL }}.patch"
-            patch -p1 -F 3 < "fengchi_${{ github.event.inputs.FEIL }}.patch"
+            dos2unix "fengchi_oneplus_ace5_pro_b.patch"
+            patch -p1 -F 3 < "fengchi_oneplus_ace5_pro_b.patch"
             echo "✅ 完美风驰补丁应用完成"
           else
             sed -i '1iobj-y += hmbird_patch.o' drivers/Makefile
